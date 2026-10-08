@@ -17,10 +17,12 @@ def topological_sort(commits):
             queue.append(commit_hash)
 
     result = []
+    front  = 0
 
-    while queue:
-        current = queue.pop(0)
+    while front < len(queue):
+        current = queue[front]
         result.append(current)
+        front += 1
 
         for child in children[current]:
             indegree[child] -= 1
@@ -34,7 +36,7 @@ def sort_hashes(values):
         value = values[i]
         j     = i - 1
 
-        while j >= 0 and value[j] < value:
+        while j >= 0 and values[j] > value:
             values[j + 1] = values[j]
             j -= 1
 
@@ -106,7 +108,7 @@ def dfs(commits, commit_hash):
             if parent in visited: continue
 
             visited.add(parent)
-            result.append(f"{parent} {commits[point].message}")
+            result.append(parent)
 
             dfs_loop(parent)
 
