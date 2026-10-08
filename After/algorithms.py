@@ -128,7 +128,7 @@ def merge_sort(values, key):
     r = 0
 
     while l < len(left) and r < len(right):
-        if key(left[i]) <= key(right[i]):
+        if key(left[l]) <= key(right[l]):
             result.append(left[l])
             l += 1
         else:
