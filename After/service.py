@@ -1,6 +1,6 @@
 from datetime   import datetime
 from commit     import Commit
-from algorithms import dfs, topological_sort, bfs, update_index
+from algorithms import dfs, topological_sort, bfs, update_index, merge_sort
 
 class MiniGit:
     def __init__(self):
@@ -79,13 +79,22 @@ class MiniGit:
 
     def LOG(self, option=None):
         if not self.init: return print("Repository not initialized.")
-        if option is not None: return
 
-        commit_hashes = topological_sort(self.commits)
+        if option is None:
+            commit_hashes = topological_sort(slef.commits)
+            commits = [self.commits[commit_hashes] for commit_hash in commit_hashes]
 
-        for commit_hash in commit_hashes:
-            commit = self.commits[commit_hash]
+        elif option == "--sort-by=date":
+            commits = list(self.commits.values())
+            commits = merge_sort(commits, lambda commit: commit.timestamp)
 
+        elif option == "--sort-by=author":
+            commits = list(self.commits.values())
+            commits = merge_sort(commits, lambda commit: commit.author.lower())
+
+        else: return print("Invalid args")
+
+        for commit in commits:
             print(
                 f"commit {commit.hash} "
                 f"({commit.author}, {commit.timestamp})"

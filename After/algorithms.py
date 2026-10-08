@@ -114,3 +114,33 @@ def dfs(commits, commit_hash):
 
     dfs_loop(commit_hash)
     return result
+
+def merge_sort(values, key):
+    if len(values) <= 1: return values
+
+    middle = len(values) // 2
+
+    left  = merge_sort(values[:middle], key)
+    right = merge_sort(values[middle:], key)
+
+    result = []
+    l = 0
+    r = 0
+
+    while l < len(left) and r < len(right):
+        if key(left[i]) <= key(right[i]):
+            result.append(left[l])
+            l += 1
+        else:
+            result.append(right[r])
+            r += 1
+    
+    while l < len(left):
+        result.append(left[l])
+        l += 1
+
+    while r < len(right):
+        result.append(right[r])
+        r += 1
+
+    return result
